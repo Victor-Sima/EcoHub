@@ -1,0 +1,105 @@
+<UserControl x:Class="EcoHub.Admin.Views.ProductsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="{StaticResource EhBgBrush}"
+             d:DesignHeight="600" d:DesignWidth="940">
+    <UserControl.Resources>
+        <Style x:Key="EhMiniButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource EhGreen700Brush}"/>
+            <Setter Property="Background" Value="{StaticResource EhGreen50Brush}"/>
+            <Setter Property="FontSize" Value="11.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhGreen100Brush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="EhMiniDangerButton" TargetType="Button" BasedOn="{StaticResource EhMiniButton}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource EhCoralBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.88"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="28,26,28,28" Opacity="0">
+        <Grid.RenderTransform>
+            <TranslateTransform Y="0"/>
+        </Grid.RenderTransform>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard Storyboard="{StaticResource EhFadeInUp}"/>
+            </EventTrigger>
+        </Grid.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,18">
+            <StackPanel>
+                <TextBlock Text="Products" FontSize="28" FontWeight="Bold" Foreground="{StaticResource EhInk900Brush}"/>
+                <TextBlock Text="Manage your catalog" Foreground="{StaticResource EhInk500Brush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Content="+ Add Product" Click="AddProduct_Click" Style="{StaticResource EhPrimaryButton}" Margin="0,0,10,0"/>
+                <Button Content="⟳ Refresh" Click="Refresh_Click" Style="{StaticResource EhOutlineButton}"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Grid.Row="2" Style="{StaticResource EhCard}" Padding="0">
+            <DataGrid x:Name="ProductsGrid" Style="{StaticResource EhDataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="160"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="220"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:N2} MDL}" Width="120"/>
+                    <DataGridTextColumn Header="Discount" Binding="{Binding DiscountPercentage, StringFormat=%}" Width="80"/>
+                    <DataGridTextColumn Header="Stock" Binding="{Binding StockQuantity}" Width="70"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="110"/>
+                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="60"/>
+                    <DataGridTemplateColumn Header="Actions" Width="220">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Edit"   Click="EditProduct_Click"   Tag="{Binding}" Style="{StaticResource EhMiniButton}"/>
+                                    <Button Content="Stock"  Click="StockProduct_Click"  Tag="{Binding}" Style="{StaticResource EhMiniButton}"/>
+                                    <Button Content="Delete" Click="DeleteProduct_Click" Tag="{Binding}" Style="{StaticResource EhMiniDangerButton}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>
