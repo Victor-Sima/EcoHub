@@ -1,0 +1,158 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<PageTitle>EcoHub - Fresh Food Marketplace</PageTitle>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center" style="position:relative; z-index:1;">
+        <div class="hero-title anim-fade-down">&#127807; EcoHub</div>
+        <p class="hero-subtitle anim-fade-up delay-200 mx-auto">Fresh organic food delivered to your door. Quality groceries at the best prices.</p>
+        <div class="mt-4 anim-fade-up delay-300">
+            <a href="/products" class="btn btn-eco btn-lg me-3 hover-pop">Shop Now</a>
+            <a href="/discounts" class="btn btn-discount btn-lg hover-pop">View Discounts</a>
+        </div>
+    </div>
+</section>
+
+<!-- Info Section -->
+<section class="info-section">
+    <div class="container">
+        <div class="row anim-stagger">
+            <div class="col-md-3">
+                <div class="info-card">
+                    <div class="info-icon anim-float">&#128666;</div>
+                    <div class="info-title">Fast Delivery</div>
+                    <div class="info-desc">Same-day delivery for orders placed before 12 PM</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-card">
+                    <div class="info-icon anim-float">&#127806;</div>
+                    <div class="info-title">100% Organic</div>
+                    <div class="info-desc">All products sourced from certified organic farms</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-card">
+                    <div class="info-icon anim-float">&#128176;</div>
+                    <div class="info-title">Best Prices</div>
+                    <div class="info-desc">Competitive prices with weekly special discounts</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-card">
+                    <div class="info-icon anim-float">&#128274;</div>
+                    <div class="info-title">Secure Shopping</div>
+                    <div class="info-desc">Secure payments and guaranteed product quality</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Discount Banner -->
+@if (discountedProducts != null && discountedProducts.Any())
+{
+    <section class="discount-banner">
+        <div class="container">
+            <h2 class="anim-fade-up">&#128293; Hot Discounts This Week!</h2>
+            <p class="anim-fade-up delay-100">Save up to @(discountedProducts.Max(p => p.DiscountPercentage))% on selected products</p>
+            <a href="/discounts" class="btn btn-outline-light btn-lg mt-2 anim-fade-up delay-200 hover-pop">See All Discounts</a>
+        </div>
+    </section>
+}
+
+<!-- Featured Products -->
+<div class="container py-5 page-enter">
+    <h3 class="section-header">Featured Products</h3>
+
+    @if (products == null)
+    {
+        <p class="text-muted">Loading products...</p>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 anim-stagger">
+            @foreach (var product in products.Take(8))
+            {
+                <div class="col">
+                    <div class="card product-card h-100">
+                        @if (product.DiscountPercentage > 0)
+                        {
+                            <span class="discount-badge">-@product.DiscountPercentage%</span>
+                        }
+                        <div class="card-img-placeholder">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp';" data-pid="@product.Id" />
+                            }
+                            else
+                            {
+                                @GetProductEmoji(product.CategoryName)
+                            }
+                        </div>
+                        <div class="card-body">
+                            <div class="product-category">@product.CategoryName</div>
+                            <div class="product-name">@product.Name</div>
+                            <div class="product-description">@product.Description</div>
+                            <div class="product-price-row">
+                                @if (product.DiscountPercentage > 0)
+                                {
+                                    <span class="product-price-original">@FormatLei(product.Price)</span>
+                                    <span class="product-price-discounted">@FormatLei(product.DiscountedPrice)</span>
+                                }
+                                else
+                                {
+                                    <span class="product-price-regular">@FormatLei(product.Price)</span>
+                                }
+                            </div>
+                            <div class="product-stock">@(product.StockQuantity > 0 ? $"In stock: {product.StockQuantity}" : "Out of stock")</div>
+                            <a href="/product/@product.Id" class="btn btn-eco btn-sm mt-2 w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- About Section -->
+<div class="container py-4 mb-4">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h3 class="section-header">About EcoHub</h3>
+            <p>EcoHub is your trusted online grocery store, offering a wide selection of fresh fruits, vegetables, dairy, bakery items, and beverages. We partner with local organic farms to bring you the freshest products at competitive prices.</p>
+            <p>Our mission is to make healthy, organic food accessible to everyone. With same-day delivery, secure payments, and a commitment to quality, EcoHub is the smart choice for your daily grocery needs.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <div style="font-size: 8rem; color: var(--eco-green);">&#127807;&#127813;&#129382;&#127838;</div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<ProductDto>? products;
+    private List<ProductDto>? discountedProducts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Http.GetFromJsonAsync<List<ProductDto>>(ApiRoutes.Products.GetAll);
+        discountedProducts = await Http.GetFromJsonAsync<List<ProductDto>>(ApiRoutes.Products.Discounts);
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+
+    private string GetProductEmoji(string category)
+    {
+        return category switch
+        {
+            "Fruits" => "\uD83C\uDF53",
+            "Vegetables" => "\uD83E\uDD66",
+            "Dairy" => "\uD83E\uDDC0",
+            "Bakery" => "\uD83C\uDF5E",
+            "Beverages" => "\uD83C\uDF64",
+            _ => "\uD83D\uDED2"
+        };
+    }
+}
