@@ -1,0 +1,493 @@
+/* ==========================================================================
+   EcoHub Modern Design System
+   Modern, minimalist, eco-inspired. Uses glassmorphism, soft shadows,
+   gradient accents and refined typography.
+   ========================================================================== */
+
+/* ---- Google Font: Inter + Poppins for headings -------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+/* ---- Design Tokens ------------------------------------------------------ */
+:root {
+    /* Brand */
+    --mod-green-50:  #e8f5ec;
+    --mod-green-100: #c8e6d0;
+    --mod-green-300: #66bb6a;
+    --mod-green-500: #2e7d32;
+    --mod-green-600: #246628;
+    --mod-green-700: #1b5e20;
+    --mod-green-900: #0d3d10;
+
+    --mod-accent:   #ffb300;        /* warm amber */
+    --mod-coral:    #ff5252;        /* discount accent */
+    --mod-teal:     #00897b;
+
+    /* Neutrals */
+    --mod-ink-900: #0f172a;
+    --mod-ink-700: #334155;
+    --mod-ink-500: #64748b;
+    --mod-ink-300: #cbd5e1;
+    --mod-ink-100: #f1f5f9;
+    --mod-surface: #ffffff;
+    --mod-bg:      #f6f9f7;
+
+    /* Gradients */
+    --grad-hero:    linear-gradient(135deg, #0d3d10 0%, #2e7d32 45%, #66bb6a 100%);
+    --grad-card:    linear-gradient(135deg, #ffffff 0%, #f7fbf8 100%);
+    --grad-accent:  linear-gradient(135deg, #ff8a00 0%, #ffb300 100%);
+    --grad-coral:   linear-gradient(135deg, #ff5252 0%, #ff8a65 100%);
+    --grad-glass:   linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.6) 100%);
+
+    /* Shadow scale */
+    --mod-shadow-xs: 0 1px 2px rgba(15,23,42,0.06);
+    --mod-shadow-sm: 0 2px 8px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+    --mod-shadow-md: 0 8px 24px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04);
+    --mod-shadow-lg: 0 20px 50px rgba(15,23,42,0.12), 0 6px 12px rgba(15,23,42,0.05);
+    --mod-glow-green: 0 0 0 6px rgba(102,187,106,0.18);
+
+    /* Radii */
+    --mod-r-sm: 10px;
+    --mod-r-md: 16px;
+    --mod-r-lg: 22px;
+    --mod-r-pill: 999px;
+
+    /* Motion */
+    --mod-ease: cubic-bezier(.22, 1, .36, 1);
+    --mod-ease-out: cubic-bezier(0, 0, .2, 1);
+    --mod-dur-fast: 180ms;
+    --mod-dur-md: 320ms;
+    --mod-dur-slow: 520ms;
+}
+
+/* ---- Base --------------------------------------------------------------- */
+html, body {
+    font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--mod-bg);
+    color: var(--mod-ink-900);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .hero-title, .section-header, .navbar-brand {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+}
+
+::selection { background: var(--mod-green-100); color: var(--mod-green-900); }
+
+/* Scrollbar polish */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--mod-ink-300); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--mod-green-300); }
+
+/* ---- Navbar ------------------------------------------------------------- */
+.navbar-eco {
+    background: linear-gradient(90deg, var(--mod-green-900) 0%, var(--mod-green-700) 60%, var(--mod-green-500) 100%) !important;
+    box-shadow: 0 8px 32px rgba(13,61,16,0.18);
+    backdrop-filter: saturate(1.2);
+    min-height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.navbar-eco .container { min-height: 64px; }
+
+.navbar-eco .navbar-brand {
+    font-weight: 800;
+    font-size: 1.55rem;
+    color: #fff !important;
+    line-height: 64px;
+    background: linear-gradient(135deg, #ffffff 0%, #c8e6d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.navbar-eco .navbar-items,
+.navbar-eco .navbar-item { min-height: 64px; display: flex; align-items: center; }
+
+.navbar-eco .nav-link {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85) !important;
+    padding: 0 18px !important;
+    height: 64px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: color var(--mod-dur-fast) var(--mod-ease);
+}
+
+.navbar-eco .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 18px; right: 18px; bottom: 14px;
+    height: 2px;
+    background: var(--mod-accent);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--mod-dur-md) var(--mod-ease);
+}
+
+.navbar-eco .nav-link:hover,
+.navbar-eco .nav-link.active { color: #fff !important; background: transparent !important; }
+.navbar-eco .nav-link:hover::after,
+.navbar-eco .nav-link.active::after { transform: scaleX(1); }
+
+.btn-nav-logout {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.28);
+    color: #fff;
+    font-weight: 500;
+    padding: 0 18px;
+    line-height: 40px;
+    height: 40px;
+    align-self: center;
+    border-radius: var(--mod-r-pill);
+    transition: all var(--mod-dur-fast) var(--mod-ease);
+}
+
+.btn-nav-logout:hover {
+    background: var(--mod-coral);
+    border-color: var(--mod-coral);
+    box-shadow: 0 6px 20px rgba(255,82,82,0.35);
+    transform: translateY(-1px);
+}
+
+.nav-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: 11px;
+    font-size: 0.72rem;
+    line-height: 1;
+    background: var(--grad-accent);
+    color: #1a1a1a;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(255,179,0,0.45);
+}
+
+/* ---- Hero --------------------------------------------------------------- */
+.hero-section {
+    background: var(--grad-hero);
+    color: white;
+    padding: 96px 0 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), transparent 45%),
+        radial-gradient(circle at 85% 70%, rgba(255,179,0,0.18), transparent 50%);
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.92;
+    max-width: 640px;
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+.btn-eco, .btn-eco-outline, .btn-discount {
+    border-radius: var(--mod-r-pill);
+    font-weight: 600;
+    padding: 12px 26px;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--mod-dur-fast) var(--mod-ease), box-shadow var(--mod-dur-md) var(--mod-ease), background var(--mod-dur-md) var(--mod-ease);
+    isolation: isolate;
+}
+
+.btn-eco {
+    background: linear-gradient(135deg, var(--mod-green-500) 0%, var(--mod-green-300) 100%);
+    color: #fff;
+    box-shadow: 0 8px 20px rgba(46,125,50,0.28);
+    border: none;
+}
+.btn-eco:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(46,125,50,0.35);
+    color: #fff;
+}
+.btn-eco:active { transform: translateY(0); }
+
+.btn-eco-outline {
+    background: #fff;
+    color: var(--mod-green-700);
+    border: 2px solid var(--mod-green-500);
+    box-shadow: var(--mod-shadow-xs);
+}
+.btn-eco-outline:hover {
+    background: var(--mod-green-500);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(46,125,50,0.25);
+}
+
+.btn-discount {
+    background: var(--grad-coral);
+    color: #fff;
+    border: none;
+    box-shadow: 0 8px 20px rgba(255,82,82,0.3);
+}
+.btn-discount:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(255,82,82,0.4); color: #fff; }
+
+/* Ripple shine effect */
+.btn-eco::before, .btn-discount::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform .7s var(--mod-ease);
+    z-index: -1;
+}
+.btn-eco:hover::before, .btn-discount:hover::before { transform: translateX(120%); }
+
+/* ---- Info Cards --------------------------------------------------------- */
+.info-section { background: #fff; padding: 64px 0; border-bottom: 1px solid var(--mod-ink-100); }
+
+.info-card {
+    background: var(--grad-card);
+    border-radius: var(--mod-r-md);
+    padding: 32px 24px;
+    box-shadow: var(--mod-shadow-sm);
+    border: 1px solid var(--mod-ink-100);
+    transition: transform var(--mod-dur-md) var(--mod-ease), box-shadow var(--mod-dur-md) var(--mod-ease);
+}
+.info-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--mod-shadow-lg);
+    border-color: var(--mod-green-100);
+}
+
+.info-icon {
+    font-size: 2.4rem;
+    width: 64px; height: 64px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+    color: var(--mod-green-700);
+    background: var(--mod-green-50);
+    border-radius: var(--mod-r-md);
+    transition: transform var(--mod-dur-md) var(--mod-ease);
+}
+.info-card:hover .info-icon { transform: rotate(-6deg) scale(1.06); }
+
+.info-title { font-weight: 700; font-size: 1.1rem; color: var(--mod-ink-900); }
+.info-desc  { color: var(--mod-ink-500); line-height: 1.55; }
+
+/* ---- Product Cards ------------------------------------------------------ */
+.product-card {
+    background: var(--grad-card);
+    border: 1px solid var(--mod-ink-100) !important;
+    border-radius: var(--mod-r-md);
+    box-shadow: var(--mod-shadow-sm);
+    transition: transform var(--mod-dur-md) var(--mod-ease), box-shadow var(--mod-dur-md) var(--mod-ease), border-color var(--mod-dur-md) var(--mod-ease);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(102,187,106,0.0), rgba(102,187,106,0.0));
+    transition: background var(--mod-dur-md) var(--mod-ease);
+    pointer-events: none;
+    border-radius: inherit;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--mod-shadow-lg);
+    border-color: var(--mod-green-100) !important;
+}
+.product-card:hover::before { background: linear-gradient(135deg, rgba(102,187,106,0.05), rgba(255,179,0,0.05)); }
+
+.product-card .card-img-placeholder {
+    height: 200px;
+    background: linear-gradient(135deg, var(--mod-green-50) 0%, #f0f7f1 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card .card-img-placeholder img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform var(--mod-dur-slow) var(--mod-ease);
+}
+.product-card:hover .card-img-placeholder img { transform: scale(1.07); }
+
+.product-name { font-weight: 700; font-size: 1.1rem; color: var(--mod-ink-900); letter-spacing: -0.01em; }
+.product-category {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mod-green-700);
+    font-weight: 700;
+    background: var(--mod-green-50);
+    padding: 4px 10px;
+    border-radius: var(--mod-r-pill);
+    margin-bottom: 8px;
+}
+.product-description { color: var(--mod-ink-500); }
+
+.product-price-original { color: var(--mod-ink-500); text-decoration: line-through; font-size: 0.95rem; }
+.product-price-discounted { font-size: 1.45rem; font-weight: 800; color: var(--mod-coral); font-family: 'Poppins', sans-serif; }
+.product-price-regular { font-size: 1.45rem; font-weight: 800; color: var(--mod-green-700); font-family: 'Poppins', sans-serif; }
+
+.product-stock { color: var(--mod-ink-500); font-size: 0.82rem; }
+
+/* Discount badge */
+.discount-badge {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: var(--grad-coral);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: var(--mod-r-pill);
+    box-shadow: 0 6px 18px rgba(255,82,82,0.35);
+    letter-spacing: 0.02em;
+    z-index: 2;
+}
+
+/* ---- Discount Banner ---------------------------------------------------- */
+.discount-banner {
+    background: var(--grad-coral);
+    color: #fff;
+    padding: 48px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.discount-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.2), transparent 55%);
+}
+.discount-banner h2 { font-family: 'Poppins', sans-serif; font-size: 2.1rem; font-weight: 800; position: relative; }
+.discount-banner p { position: relative; opacity: 0.94; }
+
+/* ---- Section headers ---------------------------------------------------- */
+.section-header {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--mod-ink-900);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: none;
+    position: relative;
+    display: inline-block;
+}
+.section-header::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 56px; height: 4px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--mod-green-500), var(--mod-accent));
+}
+
+/* ---- Tables / Cart ------------------------------------------------------ */
+.cart-table {
+    border-radius: var(--mod-r-md);
+    overflow: hidden;
+    box-shadow: var(--mod-shadow-sm);
+    border: 1px solid var(--mod-ink-100);
+    background: #fff;
+}
+.cart-table th {
+    background: linear-gradient(135deg, var(--mod-green-700), var(--mod-green-500));
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: none;
+}
+.cart-table td { vertical-align: middle; }
+.cart-total-row { background: var(--mod-green-50); font-weight: 700; }
+.cart-savings-row { background: #ffebee; color: var(--mod-coral); font-weight: 700; }
+
+/* ---- Auth Cards --------------------------------------------------------- */
+.auth-container { max-width: 460px; margin: 60px auto; }
+.auth-card {
+    border-radius: var(--mod-r-lg);
+    box-shadow: var(--mod-shadow-md);
+    border: 1px solid var(--mod-ink-100);
+    background: var(--grad-glass);
+    backdrop-filter: blur(20px);
+    padding: 40px;
+}
+.auth-card h3 { color: var(--mod-green-700); font-weight: 800; }
+
+/* ---- Forms -------------------------------------------------------------- */
+.form-control, .form-select {
+    border-radius: var(--mod-r-sm);
+    border: 1.5px solid var(--mod-ink-300);
+    padding: 10px 14px;
+    transition: border-color var(--mod-dur-fast) var(--mod-ease), box-shadow var(--mod-dur-fast) var(--mod-ease);
+    background: #fff;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--mod-green-500);
+    box-shadow: var(--mod-glow-green);
+    outline: none;
+}
+.form-label { font-weight: 600; color: var(--mod-ink-700); font-size: 0.9rem; }
+
+/* ---- Alerts ------------------------------------------------------------- */
+.alert-eco {
+    border-radius: var(--mod-r-md);
+    border: 1px solid var(--mod-green-100);
+    background: var(--mod-green-50);
+    color: var(--mod-green-700);
+    font-weight: 600;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+.footer-eco {
+    background: linear-gradient(180deg, var(--mod-green-900) 0%, #061d08 100%);
+    color: rgba(255,255,255,0.85);
+    padding: 56px 0 24px;
+}
+.footer-eco h5 { color: #fff; font-weight: 700; margin-bottom: 18px; }
+.footer-eco a { color: rgba(255,255,255,0.72); text-decoration: none; transition: color var(--mod-dur-fast) var(--mod-ease); }
+.footer-eco a:hover { color: var(--mod-accent); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 18px; margin-top: 30px; font-size: 0.9rem; opacity: 0.7; }
+
+/* ---- Order cards -------------------------------------------------------- */
+.order-card {
+    border-radius: var(--mod-r-md);
+    box-shadow: var(--mod-shadow-sm);
+    border: 1px solid var(--mod-ink-100);
+    background: var(--grad-card);
+    transition: box-shadow var(--mod-dur-md) var(--mod-ease), transform var(--mod-dur-md) var(--mod-ease);
+}
+.order-card:hover { box-shadow: var(--mod-shadow-md); transform: translateY(-2px); }
+.order-card .badge { border-radius: var(--mod-r-pill); padding: 6px 14px; font-weight: 600; }
+
+/* ---- Loading overlay tweaks -------------------------------------------- */
+.loading-progress circle:last-child { stroke: var(--mod-green-500); }
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 768px) {
+    .hero-section { padding: 60px 0 44px; }
+    .auth-card { padding: 28px; }
+}

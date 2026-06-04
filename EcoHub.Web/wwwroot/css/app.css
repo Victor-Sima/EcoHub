@@ -1,0 +1,480 @@
+/* EcoHub Professional Styles */
+
+:root {
+    --eco-green: #2e7d32;
+    --eco-green-light: #4caf50;
+    --eco-green-dark: #1b5e20;
+    --eco-orange: #ff6f00;
+    --eco-red: #d32f2f;
+    --eco-bg: #f8f9fa;
+    --eco-card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+html, body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--eco-bg);
+}
+
+h1:focus { outline: none; }
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--eco-green-dark) 0%, var(--eco-green) 50%, var(--eco-green-light) 100%);
+    color: white;
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,186C384,213,480,229,576,224C672,219,768,197,864,186C960,176,1056,176,1152,186C1248,197,1344,229,1392,245L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"/></svg>') no-repeat bottom;
+    pointer-events: none;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+/* Info Section */
+.info-section {
+    background: white;
+    padding: 50px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-card {
+    text-align: center;
+    padding: 30px 20px;
+    border-radius: 12px;
+    transition: transform 0.2s;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    color: var(--eco-green);
+    margin-bottom: 15px;
+}
+
+.info-title {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.info-desc {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Product Cards */
+.product-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--eco-card-shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transform: translateY(-4px);
+}
+
+.product-card .card-body {
+    padding: 20px;
+}
+
+.product-card .card-img-placeholder {
+    height: 180px;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--eco-green);
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card .card-img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-detail-img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.product-category {
+    font-size: 0.85rem;
+    color: var(--eco-green);
+    font-weight: 600;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.product-price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.product-price-original {
+    font-size: 1.1rem;
+    color: #999;
+}
+
+.product-price-discounted {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--eco-red);
+}
+
+.product-price-regular {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--eco-green);
+}
+
+.product-stock {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+/* Discount Badge */
+.discount-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--eco-red);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Discount Banner */
+.discount-banner {
+    background: linear-gradient(135deg, var(--eco-red) 0%, #ff5252 100%);
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    margin: 0;
+}
+
+.discount-banner h2 {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.discount-banner p {
+    opacity: 0.9;
+}
+
+/* Navigation */
+.navbar-eco {
+    background: var(--eco-green-dark) !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    min-height: 56px;
+}
+
+.navbar-eco .container {
+    min-height: 56px;
+}
+
+.navbar-eco .navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    line-height: 56px;
+    padding: 0 !important;
+}
+
+.navbar-eco .navbar-items {
+    display: flex;
+    align-items: stretch;
+    min-height: 56px;
+    flex-wrap: nowrap;
+}
+
+.navbar-eco .navbar-item {
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+}
+
+.navbar-eco .nav-link {
+    font-weight: 500;
+    padding: 0 16px !important;
+    line-height: 56px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.navbar-eco .nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+}
+
+.navbar-eco .nav-link.active {
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+}
+
+.btn-nav-logout {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0 16px;
+    line-height: 56px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.btn-nav-logout:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: white;
+    border-radius: 6px;
+}
+
+.nav-badge {
+    background: var(--eco-red);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* Cart Styles */
+.cart-table {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--eco-card-shadow);
+}
+
+.cart-table th {
+    background: var(--eco-green);
+    color: white;
+    font-weight: 600;
+}
+
+.cart-total-row {
+    background: #e8f5e9;
+    font-weight: 700;
+}
+
+.cart-savings-row {
+    background: #fce4ec;
+    color: var(--eco-red);
+    font-weight: 600;
+}
+
+.quantity-input {
+    width: 60px;
+    text-align: center;
+}
+
+/* Order Cards */
+.order-card {
+    border-radius: 12px;
+    box-shadow: var(--eco-card-shadow);
+    border: none;
+    margin-bottom: 15px;
+}
+
+.order-card .badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+}
+
+/* Footer */
+.footer-eco {
+    background: var(--eco-green-dark);
+    color: white;
+    padding: 40px 0 20px;
+}
+
+.footer-eco h5 {
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.footer-eco a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+}
+
+.footer-eco a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 20px;
+    margin-top: 30px;
+}
+
+/* Auth Pages */
+.auth-container {
+    max-width: 450px;
+    margin: 40px auto;
+}
+
+.auth-card {
+    border-radius: 16px;
+    box-shadow: var(--eco-card-shadow);
+    border: none;
+    padding: 30px;
+}
+
+.auth-card h3 {
+    color: var(--eco-green-dark);
+    font-weight: 700;
+}
+
+.btn-eco {
+    background: var(--eco-green);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    transition: all 0.2s;
+}
+
+.btn-eco:hover {
+    background: var(--eco-green-dark);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.btn-eco-outline {
+    background: transparent;
+    color: var(--eco-green);
+    font-weight: 600;
+    border: 2px solid var(--eco-green);
+    border-radius: 8px;
+    padding: 10px 24px;
+    transition: all 0.2s;
+}
+
+.btn-eco-outline:hover {
+    background: var(--eco-green);
+    color: white;
+}
+
+.btn-discount {
+    background: var(--eco-red);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+}
+
+.btn-discount:hover {
+    background: #b71c1c;
+    color: white;
+}
+
+/* Section Headers */
+.section-header {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--eco-green);
+}
+
+/* Alert */
+.alert-eco {
+    border-radius: 10px;
+    border: none;
+    background: #e8f5e9;
+    color: var(--eco-green-dark);
+    font-weight: 600;
+}
+
+/* Validation */
+.valid.modified:not([type=checkbox]) { outline: 1px solid #26b050; }
+.invalid { outline: 1px solid red; }
+.validation-message { color: red; }
+
+#blazor-error-ui {
+    background: #d32f2f;
+    color: white;
+    bottom: 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    display: none;
+    left: 0;
+    padding: 1rem 1.5rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss { cursor: pointer; position: absolute; right: 1rem; top: 0.75rem; }
+
+.blazor-error-boundary {
+    background: #d32f2f;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+.blazor-error-boundary::after { content: "An error has occurred."; }
+
+.loading-progress { position: relative; display: block; width: 8rem; height: 8rem; margin: 20vh auto 1rem auto; }
+.loading-progress circle { fill: none; stroke: #e0e0e0; stroke-width: 0.6rem; transform-origin: 50% 50%; transform: rotate(-90deg); }
+.loading-progress circle:last-child { stroke: var(--eco-green); stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%; transition: stroke-dasharray 0.05s ease-in-out; }
+.loading-progress-text { position: absolute; text-align: center; font-weight: bold; inset: calc(20vh + 3.25rem) 0 auto 0.2rem; }
+.loading-progress-text:after { content: var(--blazor-load-percentage-text, "Loading"); }
+
+code { color: #c02d76; }
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder { color: var(--bs-secondary-color); text-align: end; }
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder { text-align: start; }

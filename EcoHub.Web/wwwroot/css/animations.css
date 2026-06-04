@@ -1,0 +1,181 @@
+/* ==========================================================================
+   EcoHub Animation Library
+   Keyframe animations + reusable utility classes.
+   Attach classes to elements to play animations on load/hover/intersection.
+   ========================================================================== */
+
+/* ---- Keyframes ---------------------------------------------------------- */
+@keyframes eh-fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes eh-fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes eh-fadeInDown {
+    from { opacity: 0; transform: translate3d(0, -28px, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes eh-slideInLeft {
+    from { opacity: 0; transform: translate3d(-40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes eh-slideInRight {
+    from { opacity: 0; transform: translate3d(40px, 0, 0); }
+    to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes eh-scaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes eh-zoomIn {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes eh-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); }
+}
+
+@keyframes eh-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+@keyframes eh-floating {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50%      { transform: translateY(-6px) rotate(1deg); }
+}
+
+@keyframes eh-shimmer {
+    0%   { background-position: -1200px 0; }
+    100% { background-position: 1200px 0; }
+}
+
+@keyframes eh-shine {
+    0%   { transform: translateX(-120%); }
+    100% { transform: translateX(120%); }
+}
+
+@keyframes eh-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes eh-shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+}
+
+@keyframes eh-pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(0.94); }
+    100% { transform: scale(1); }
+}
+
+@keyframes eh-gradientShift {
+    0%, 100% { background-position:   0% 50%; }
+    50%      { background-position: 100% 50%; }
+}
+
+@keyframes eh-ripple {
+    to { transform: scale(2.5); opacity: 0; }
+}
+
+/* ---- Utility classes (opt-in) ------------------------------------------ */
+.anim-fade-in        { animation: eh-fadeIn        540ms cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-up        { animation: eh-fadeInUp      620ms cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-down      { animation: eh-fadeInDown    620ms cubic-bezier(.22,1,.36,1) both; }
+.anim-slide-left     { animation: eh-slideInLeft   560ms cubic-bezier(.22,1,.36,1) both; }
+.anim-slide-right    { animation: eh-slideInRight  560ms cubic-bezier(.22,1,.36,1) both; }
+.anim-scale-in       { animation: eh-scaleIn       520ms cubic-bezier(.22,1,.36,1) both; }
+.anim-zoom-in        { animation: eh-zoomIn        520ms cubic-bezier(.22,1,.36,1) both; }
+.anim-pulse-soft     { animation: eh-pulse          2.4s ease-in-out infinite; }
+.anim-bounce-soft    { animation: eh-bounce         2.0s ease-in-out infinite; }
+.anim-float          { animation: eh-floating       3.6s ease-in-out infinite; }
+
+/* Staggered children — add .anim-stagger to parent, children animate one after another. */
+.anim-stagger > * { animation: eh-fadeInUp 620ms cubic-bezier(.22,1,.36,1) both; }
+.anim-stagger > *:nth-child(1)  { animation-delay:  60ms; }
+.anim-stagger > *:nth-child(2)  { animation-delay: 120ms; }
+.anim-stagger > *:nth-child(3)  { animation-delay: 180ms; }
+.anim-stagger > *:nth-child(4)  { animation-delay: 240ms; }
+.anim-stagger > *:nth-child(5)  { animation-delay: 300ms; }
+.anim-stagger > *:nth-child(6)  { animation-delay: 360ms; }
+.anim-stagger > *:nth-child(7)  { animation-delay: 420ms; }
+.anim-stagger > *:nth-child(8)  { animation-delay: 480ms; }
+.anim-stagger > *:nth-child(9)  { animation-delay: 540ms; }
+.anim-stagger > *:nth-child(10) { animation-delay: 600ms; }
+.anim-stagger > *:nth-child(11) { animation-delay: 660ms; }
+.anim-stagger > *:nth-child(12) { animation-delay: 720ms; }
+.anim-stagger > *:nth-child(n+13) { animation-delay: 780ms; }
+
+/* Delay helpers */
+.delay-100 { animation-delay: 100ms !important; }
+.delay-200 { animation-delay: 200ms !important; }
+.delay-300 { animation-delay: 300ms !important; }
+.delay-400 { animation-delay: 400ms !important; }
+.delay-500 { animation-delay: 500ms !important; }
+
+/* ---- Hover micro-interactions ------------------------------------------ */
+.hover-lift { transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s cubic-bezier(.22,1,.36,1); }
+.hover-lift:hover { transform: translateY(-4px); }
+
+.hover-pop { transition: transform .2s cubic-bezier(.22,1,.36,1); }
+.hover-pop:hover { transform: scale(1.04); }
+.hover-pop:active { animation: eh-pop 260ms ease; }
+
+.hover-glow { transition: box-shadow .3s ease, transform .3s ease; }
+.hover-glow:hover { box-shadow: 0 0 0 6px rgba(102,187,106,0.15), 0 16px 32px rgba(46,125,50,0.18); }
+
+/* ---- Shimmer (skeleton / loading) --------------------------------------- */
+.skeleton {
+    position: relative;
+    background: #e9eef0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.skeleton::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%);
+    background-size: 1200px 100%;
+    animation: eh-shimmer 1.6s linear infinite;
+}
+
+/* ---- Animated gradient background -------------------------------------- */
+.bg-animated-green {
+    background: linear-gradient(120deg, #1b5e20 0%, #2e7d32 35%, #66bb6a 70%, #2e7d32 100%);
+    background-size: 280% 280%;
+    animation: eh-gradientShift 14s ease infinite;
+}
+
+/* ---- Route (page) transition ------------------------------------------- */
+.page-enter { animation: eh-fadeInUp 520ms cubic-bezier(.22,1,.36,1) both; }
+
+/* ---- Loading spinner --------------------------------------------------- */
+.eh-spinner {
+    width: 38px; height: 38px;
+    border: 3px solid rgba(46,125,50,0.18);
+    border-top-color: var(--mod-green-500, #2e7d32);
+    border-radius: 50%;
+    animation: eh-spin 900ms linear infinite;
+    display: inline-block;
+}
+
+/* ---- Reduce motion support --------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
