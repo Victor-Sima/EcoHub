@@ -1,0 +1,45 @@
+<UserControl x:Class="EcoHub.Admin.Views.NotificationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="{StaticResource EhBgBrush}"
+             d:DesignHeight="600" d:DesignWidth="940">
+    <Grid Margin="28,26,28,28" Opacity="0">
+        <Grid.RenderTransform>
+            <TranslateTransform Y="0"/>
+        </Grid.RenderTransform>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard Storyboard="{StaticResource EhFadeInUp}"/>
+            </EventTrigger>
+        </Grid.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,18">
+            <StackPanel>
+                <TextBlock Text="Notifications" FontSize="28" FontWeight="Bold" Foreground="{StaticResource EhInk900Brush}"/>
+                <TextBlock Text="Real-time activity feed" Foreground="{StaticResource EhInk500Brush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <Button Content="✓ Mark All Read" Click="MarkAllRead_Click"
+                    Style="{StaticResource EhOutlineButton}"
+                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Border Grid.Row="1" Style="{StaticResource EhCard}" Padding="0">
+            <DataGrid x:Name="NotificationsGrid" Style="{StaticResource EhDataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="*"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="130"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding CreatedAt}" Width="160"/>
+                    <DataGridCheckBoxColumn Header="Read" Binding="{Binding IsRead}" Width="70"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>
