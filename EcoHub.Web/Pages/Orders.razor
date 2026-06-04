@@ -1,0 +1,102 @@
+@page "/orders"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject SignalRService SignalRService
+
+<PageTitle>My Orders - EcoHub</PageTitle>
+
+<div class="container py-5">
+    <h3 class="section-header">&#128230; My Orders</h3>
+
+    @if (orders == null)
+    {
+        <p class="text-muted">Loading orders...</p>
+    }
+    else if (!orders.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size: 4rem; color: var(--eco-green);">&#128230;</div>
+            <h4>No orders yet</h4>
+            <p class="text-muted">Start shopping and place your first order!</p>
+            <a href="/products" class="btn btn-eco">Browse Products</a>
+        </div>
+    }
+    else
+    {
+        @foreach (var order in orders)
+        {
+            <div class="card order-card mb-3">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold">Order #@order.Id</h5>
+                        <span class="badge @GetStatusBadgeClass(order.Status)">@order.Status</span>
+                    </div>
+                    <p class="text-muted mb-2">@order.CreatedAt.ToString("yyyy-MM-dd HH:mm")</p>
+                    <div class="row">
+                        @foreach (var item in order.Items)
+                        {
+                            <div class="col-md-6 mb-1">
+                                <span class="fw-bold">@item.ProductName</span>
+                                <span class="text-muted"> x @item.Quantity</span>
+                                @if (item.DiscountPercentage > 0)
+                                {
+                                    <span class="badge bg-danger ms-1">-@item.DiscountPercentage%</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">Total:</span>
+                        <span class="fw-bold fs-5 text-success">@FormatLei(order.TotalPrice)</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@code {
+    private List<OrderDto>? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SignalRService.OnOrderStatusUpdated += HandleOrderStatusUpdated;
+        await LoadOrders();
+    }
+
+    private async Task LoadOrders()
+    {
+        orders = await Http.GetFromJsonAsync<List<OrderDto>>(ApiRoutes.Orders.GetMyOrders);
+        StateHasChanged();
+    }
+
+    private void HandleOrderStatusUpdated(int orderId, string status)
+    {
+        var order = orders?.FirstOrDefault(o => o.Id == orderId);
+        if (order != null && Enum.TryParse<OrderStatus>(status, out var newStatus))
+        {
+            order.Status = newStatus;
+            StateHasChanged();
+        }
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+
+    private string GetStatusBadgeClass(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.New => "bg-info",
+            OrderStatus.Processing => "bg-warning text-dark",
+            OrderStatus.Shipping => "bg-primary",
+            OrderStatus.Completed => "bg-success",
+            _ => "bg-secondary"
+        };
+    }
+
+    public void Dispose()
+    {
+        SignalRService.OnOrderStatusUpdated -= HandleOrderStatusUpdated;
+    }
+}

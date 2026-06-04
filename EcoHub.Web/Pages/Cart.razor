@@ -1,0 +1,169 @@
+@page "/cart"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<PageTitle>Shopping Cart - EcoHub</PageTitle>
+
+<div class="container py-5">
+    <h3 class="section-header">&#128722; Shopping Cart</h3>
+
+    @if (cart == null)
+    {
+        <p class="text-muted">Loading cart...</p>
+    }
+    else if (!cart.Items.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size: 4rem; color: var(--eco-green);">&#128722;</div>
+            <h4>Your cart is empty</h4>
+            <p class="text-muted">Start shopping to add products to your cart!</p>
+            <a href="/products" class="btn btn-eco btn-lg">Browse Products</a>
+            <a href="/discounts" class="btn btn-discount btn-lg ms-2">View Discounts</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table cart-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Original Price</th>
+                        <th>Discount</th>
+                        <th>Final Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in cart.Items)
+                    {
+                        <tr>
+                            <td class="fw-bold">@item.ProductName</td>
+                            <td>@FormatLei(item.UnitPrice)</td>
+                            <td>
+                                @if (item.DiscountPercentage > 0)
+                                {
+                                    <span class="badge bg-danger">-@item.DiscountPercentage%</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td class="fw-bold">
+                                @if (item.DiscountPercentage > 0)
+                                {
+                                    <span class="text-danger">@FormatLei(item.DiscountedPrice)</span>
+                                }
+                                else
+                                {
+                                    <span>@FormatLei(item.UnitPrice)</span>
+                                }
+                            </td>
+                            <td>
+                                <input type="number" class="form-control quantity-input" value="@item.Quantity" @onchange="(e) => OnQuantityChanged(item.Id, e)" min="1" />
+                            </td>
+                            <td class="fw-bold">@FormatLei(item.TotalPrice)</td>
+                            <td>
+                                <button class="btn btn-outline-danger btn-sm" @onclick="() => RemoveItem(item.Id)">&#10060;</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="cart-total-row">
+                        <td colspan="5" class="text-end">Total:</td>
+                        <td class="fw-bold fs-5">@FormatLei(cart.TotalPrice)</td>
+                        <td></td>
+                    </tr>
+                    @if (cart.Items.Any(i => i.DiscountPercentage > 0))
+                    {
+                        <tr class="cart-savings-row">
+                            <td colspan="5" class="text-end">You save:</td>
+                            <td class="fw-bold fs-5">@FormatLei(cart.Items.Sum(i => i.Savings))</td>
+                            <td></td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="/products" class="btn btn-eco-outline">&#8592; Continue Shopping</a>
+            <div>
+                <button class="btn btn-outline-danger me-2" @onclick="ClearCart">Clear Cart</button>
+                <button class="btn btn-eco btn-lg" @onclick="Checkout">&#128176; Checkout</button>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert alert-eco mt-4 p-3">@message</div>
+        }
+    }
+</div>
+
+@code {
+    private CartDto? cart;
+    private string? message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCart();
+    }
+
+    private async Task LoadCart()
+    {
+        cart = await Http.GetFromJsonAsync<CartDto>(ApiRoutes.Cart.Get);
+    }
+
+    private async Task OnQuantityChanged(int itemId, ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var quantity))
+        {
+            await UpdateQuantity(itemId, quantity);
+        }
+    }
+
+    private async Task UpdateQuantity(int itemId, int quantity)
+    {
+        var url = ApiRoutes.Cart.UpdateItem.Replace("{id}", itemId.ToString());
+        await Http.PutAsJsonAsync(url, new UpdateCartItemRequest { Quantity = quantity });
+        await LoadCart();
+    }
+
+    private async Task RemoveItem(int itemId)
+    {
+        await Http.DeleteAsync($"{ApiRoutes.Cart.RemoveItem.Replace("{id}", itemId.ToString())}");
+        await LoadCart();
+    }
+
+    private async Task ClearCart()
+    {
+        await Http.DeleteAsync(ApiRoutes.Cart.Clear);
+        await LoadCart();
+    }
+
+    private async Task Checkout()
+    {
+        message = null;
+
+        var response = await Http.PostAsJsonAsync(ApiRoutes.Orders.GetAll, new CreateOrderRequest { PaymentMethod = PaymentMethod.Cash });
+        if (response.IsSuccessStatusCode)
+        {
+            var order = await response.Content.ReadFromJsonAsync<OrderDto>();
+            message = $"Order #{order?.Id} placed successfully! Total: {FormatLei(order?.TotalPrice ?? 0)}";
+            cart = new CartDto { UserId = cart?.UserId ?? 0 };
+        }
+        else
+        {
+            var error = await response.Content.ReadFromJsonAsync<Dictionary<string, string>>();
+            message = error?["message"] ?? "Checkout failed.";
+        }
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+}
