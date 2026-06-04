@@ -1,0 +1,185 @@
+@page "/account"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+
+<PageTitle>My Account - EcoHub</PageTitle>
+
+<div class="container py-5">
+    <h3 class="section-header">&#128100; My Account</h3>
+
+    @if (user == null)
+    {
+        <p class="text-muted">Loading account details...</p>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Account Info Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-success text-white fw-bold">
+                        &#128100; Account Information
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-muted">Email</label>
+                            <p class="form-control-plaintext fw-bold">@user.Email</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-muted">Role</label>
+                            <p class="form-control-plaintext">
+                                <span class="badge @(user.Role == UserRole.Admin ? "bg-danger" : "bg-success")">
+                                    @user.Role
+                                </span>
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-muted">Account Created</label>
+                            <p class="form-control-plaintext">@user.CreatedAt.ToString("dd MMM yyyy HH:mm")</p>
+                        </div>
+                        @if (user.LastLoginAt.HasValue)
+                        {
+                            <div class="mb-3">
+                                <label class="form-label fw-bold text-muted">Last Login</label>
+                                <p class="form-control-plaintext">@user.LastLoginAt.Value.ToString("dd MMM yyyy HH:mm")</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Card -->
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-success text-white fw-bold">
+                        &#9998; Edit Profile
+                    </div>
+                    <div class="card-body p-4">
+                        <EditForm Model="editModel" OnValidSubmit="HandleUpdateProfile">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary class="text-danger" />
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">First Name</label>
+                                <InputText @bind-Value="editModel.FirstName" class="form-control" placeholder="Your first name" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Last Name</label>
+                                <InputText @bind-Value="editModel.LastName" class="form-control" placeholder="Your last name" />
+                            </div>
+                            <button type="submit" class="btn btn-eco w-100">
+                                &#9998; Save Changes
+                            </button>
+                        </EditForm>
+
+                        @if (!string.IsNullOrEmpty(updateMessage))
+                        {
+                            <div class="alert @(updateSuccess ? "alert-eco" : "alert-danger") mt-3 p-3" style="border-radius: 10px;">
+                                @updateMessage
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order History Summary -->
+        <div class="card border-0 shadow-sm mt-3">
+            <div class="card-header bg-success text-white fw-bold">
+                &#128230; Recent Orders
+            </div>
+            <div class="card-body p-4">
+                @if (orders == null || !orders.Any())
+                {
+                    <p class="text-muted text-center py-3">No orders yet. Start shopping!</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Items</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in orders.Take(5))
+                                {
+                                    <tr>
+                                        <td class="fw-bold">#@order.Id</td>
+                                        <td>@order.CreatedAt.ToString("dd MMM yyyy")</td>
+                                        <td>@order.Items.Count items</td>
+                                        <td><span class="badge @GetStatusBadgeClass(order.Status)">@order.Status</span></td>
+                                        <td class="fw-bold">@FormatLei(order.TotalPrice)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="/orders" class="btn btn-eco-outline">View All Orders</a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private UserDto? user;
+    private UpdateProfileRequest editModel = new();
+    private List<OrderDto>? orders;
+    private string? updateMessage;
+    private bool updateSuccess;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserData();
+    }
+
+    private async Task LoadUserData()
+    {
+        user = await AuthService.GetCurrentUserAsync();
+        if (user != null)
+        {
+            editModel.FirstName = user.FirstName;
+            editModel.LastName = user.LastName;
+        }
+        orders = await Http.GetFromJsonAsync<List<OrderDto>>(ApiRoutes.Orders.GetMyOrders);
+    }
+
+    private async Task HandleUpdateProfile()
+    {
+        updateMessage = null;
+        var result = await AuthService.UpdateProfileAsync(editModel);
+        if (result != null)
+        {
+            user = result;
+            updateSuccess = true;
+            updateMessage = "Profile updated successfully!";
+        }
+        else
+        {
+            updateSuccess = false;
+            updateMessage = "Failed to update profile. Please try again.";
+        }
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+
+    private string GetStatusBadgeClass(OrderStatus status)
+    {
+        return status switch
+        {
+            OrderStatus.New => "bg-info",
+            OrderStatus.Processing => "bg-warning text-dark",
+            OrderStatus.Shipping => "bg-primary",
+            OrderStatus.Completed => "bg-success",
+            _ => "bg-secondary"
+        };
+    }
+}

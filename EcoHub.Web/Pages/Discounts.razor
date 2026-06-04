@@ -1,0 +1,91 @@
+@page "/discounts"
+@inject HttpClient Http
+
+<PageTitle>Discounts - EcoHub</PageTitle>
+
+<div class="container py-5">
+    <section class="discount-banner mb-5">
+        <div class="container">
+            <h2>&#128293; Special Discounts</h2>
+            <p>Save big on your favorite products! All items below are currently on sale.</p>
+        </div>
+    </section>
+
+    @if (products == null)
+    {
+        <p class="text-muted text-center">Loading discounted products...</p>
+    }
+    else if (!products.Any())
+    {
+        <div class="text-center py-5">
+            <h4>No products on discount right now</h4>
+            <p class="text-muted">Check back later for new deals!</p>
+            <a href="/products" class="btn btn-eco">Browse All Products</a>
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var product in products)
+            {
+                <div class="col">
+                    <div class="card product-card h-100">
+                        <span class="discount-badge">-@product.DiscountPercentage%</span>
+                        <div class="card-img-placeholder">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp';" data-pid="@product.Id" />
+                            }
+                            else
+                            {
+                                @GetProductEmoji(product.CategoryName)
+                            }
+                        </div>
+                        <div class="card-body">
+                            <div class="product-category">@product.CategoryName</div>
+                            <div class="product-name">@product.Name</div>
+                            <div class="product-description">@product.Description</div>
+                            <div class="product-price-row">
+                                <span class="product-price-original">@FormatLei(product.Price)</span>
+                                <span class="product-price-discounted">@FormatLei(product.DiscountedPrice)</span>
+                            </div>
+                            <div class="product-stock">@(product.StockQuantity > 0 ? $"In stock: {product.StockQuantity}" : "Out of stock")</div>
+                            <a href="/product/@product.Id" class="btn btn-discount btn-sm mt-2 w-100">Get This Deal</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4">
+            <div class="alert alert-eco p-3" style="border-radius: 12px;">
+                You can save up to <strong>@(products.Max(p => p.DiscountPercentage))%</strong> on these products!
+                Total savings potential: <strong>@FormatLei(products.Sum(p => p.Price - p.DiscountedPrice))</strong>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ProductDto>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await Http.GetFromJsonAsync<List<ProductDto>>(ApiRoutes.Products.Discounts);
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+
+    private string GetProductEmoji(string category)
+    {
+        return category switch
+        {
+            "Fruits" => "\uD83C\uDF53",
+            "Vegetables" => "\uD83E\uDD66",
+            "Dairy" => "\uD83E\uDDC0",
+            "Bakery" => "\uD83C\uDF5E",
+            "Beverages" => "\uD83C\uDF64",
+            _ => "\uD83D\uDED2"
+        };
+    }
+}
