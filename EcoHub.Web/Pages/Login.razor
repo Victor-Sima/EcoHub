@@ -1,0 +1,59 @@
+@page "/login"
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject SignalRService SignalRService
+
+<PageTitle>Login - EcoHub</PageTitle>
+
+<div class="auth-container page-enter">
+    <div class="auth-card anim-scale-in">
+        <div class="text-center mb-4">
+            <div class="anim-float" style="font-size: 2.6rem; color: var(--mod-green-500);">&#127807;</div>
+            <h3>Welcome Back</h3>
+            <p class="text-muted">Login to your EcoHub account</p>
+        </div>
+        <EditForm Model="model" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                <InputText @bind-Value="model.Email" class="form-control" placeholder="Enter your email" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+                <InputText @bind-Value="model.Password" type="password" class="form-control" placeholder="Enter your password" />
+            </div>
+            <button type="submit" class="btn btn-eco w-100 mb-3">Login</button>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger mt-3">@errorMessage</div>
+        }
+
+        <p class="mt-3 text-center">
+            Don't have an account? <a href="/register" class="fw-bold" style="color: var(--eco-green);">Register here</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private LoginRequest model = new();
+    private string? errorMessage;
+
+    private async Task HandleLogin()
+    {
+        errorMessage = null;
+        var success = await AuthService.LoginAsync(model.Email, model.Password);
+        if (success)
+        {
+            await SignalRService.StartAsync();
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Invalid email or password.";
+        }
+    }
+}

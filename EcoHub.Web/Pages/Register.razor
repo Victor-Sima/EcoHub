@@ -1,0 +1,67 @@
+@page "/register"
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject SignalRService SignalRService
+
+<PageTitle>Register - EcoHub</PageTitle>
+
+<div class="auth-container page-enter">
+    <div class="auth-card anim-scale-in">
+        <div class="text-center mb-4">
+            <div class="anim-float" style="font-size: 2.6rem; color: var(--mod-green-500);">&#127807;</div>
+            <h3>Create Account</h3>
+            <p class="text-muted">Join EcoHub and start shopping fresh!</p>
+        </div>
+        <EditForm Model="model" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">First Name</label>
+                <InputText @bind-Value="model.FirstName" class="form-control" placeholder="Your first name" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Last Name</label>
+                <InputText @bind-Value="model.LastName" class="form-control" placeholder="Your last name" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                <InputText @bind-Value="model.Email" class="form-control" placeholder="Your email address" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Password</label>
+                <InputText @bind-Value="model.Password" type="password" class="form-control" placeholder="Choose a strong password" />
+            </div>
+            <button type="submit" class="btn btn-eco w-100 mb-3">Create Account</button>
+        </EditForm>
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger mt-3">@errorMessage</div>
+        }
+
+        <p class="mt-3 text-center">
+            Already have an account? <a href="/login" class="fw-bold" style="color: var(--eco-green);">Login here</a>
+        </p>
+    </div>
+</div>
+
+@code {
+    private RegisterRequest model = new();
+    private string? errorMessage;
+
+    private async Task HandleRegister()
+    {
+        errorMessage = null;
+        var success = await AuthService.RegisterAsync(model);
+        if (success)
+        {
+            await SignalRService.StartAsync();
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Registration failed. Email may already be in use.";
+        }
+    }
+}
