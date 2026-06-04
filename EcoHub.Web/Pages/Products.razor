@@ -1,0 +1,144 @@
+@page "/products"
+@inject HttpClient Http
+
+<PageTitle>Products - EcoHub</PageTitle>
+
+<div class="container py-5 page-enter">
+    <h3 class="section-header">All Products</h3>
+
+    <!-- Filter Bar -->
+    <div class="card border-0 shadow-sm mb-4 p-3 anim-fade-down">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Search products..." @bind="searchQuery" @bind:event="oninput" @onkeyup="LoadProducts" />
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" @bind="selectedCategory" @bind:after="LoadProducts">
+                    <option value="0">All Categories</option>
+                    @if (categories != null)
+                    {
+                        @foreach (var cat in categories)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control" placeholder="Min price" @bind="minPrice" @bind:after="LoadProducts" />
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control" placeholder="Max price" @bind="maxPrice" @bind:after="LoadProducts" />
+            </div>
+            <div class="col-md-1">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="discountCheck" @bind="onDiscount" @bind:after="LoadProducts" />
+                    <label class="form-check-label" for="discountCheck">Discounts</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (products == null)
+    {
+        <p class="text-muted">Loading products...</p>
+    }
+    else if (!products.Any())
+    {
+        <p class="text-muted text-center py-4">No products found matching your criteria.</p>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 anim-fade-in" @key="GetGridKey()">
+            @foreach (var product in products)
+            {
+                <div class="col">
+                    <div class="card product-card h-100">
+                        @if (product.DiscountPercentage > 0)
+                        {
+                            <span class="discount-badge">-@product.DiscountPercentage%</span>
+                        }
+                        <div class="card-img-placeholder">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img src="@product.ImageUrl" alt="@product.Name" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.dummyjson.com/product-images/groceries/apple/thumbnail.webp';" data-pid="@product.Id" />
+                            }
+                            else
+                            {
+                                @GetProductEmoji(product.CategoryName)
+                            }
+                        </div>
+                        <div class="card-body">
+                            <div class="product-category">@product.CategoryName</div>
+                            <div class="product-name">@product.Name</div>
+                            <div class="product-description">@product.Description</div>
+                            <div class="product-price-row">
+                                @if (product.DiscountPercentage > 0)
+                                {
+                                    <span class="product-price-original">@FormatLei(product.Price)</span>
+                                    <span class="product-price-discounted">@FormatLei(product.DiscountedPrice)</span>
+                                }
+                                else
+                                {
+                                    <span class="product-price-regular">@FormatLei(product.Price)</span>
+                                }
+                            </div>
+                            <div class="product-stock">@(product.StockQuantity > 0 ? $"In stock: {product.StockQuantity}" : "Out of stock")</div>
+                            <a href="/product/@product.Id" class="btn btn-eco btn-sm mt-2 w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<ProductDto>? products;
+    private List<CategoryDto>? categories;
+    private string searchQuery = "";
+    private int selectedCategory = 0;
+    private decimal? minPrice;
+    private decimal? maxPrice;
+    private bool onDiscount;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Http.GetFromJsonAsync<List<CategoryDto>>(ApiRoutes.Categories.GetAll);
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            products = await Http.GetFromJsonAsync<List<ProductDto>>($"{ApiRoutes.Products.Search}?q={Uri.EscapeDataString(searchQuery)}");
+        }
+        else
+        {
+            var url = $"{ApiRoutes.Products.GetAll}?";
+            if (selectedCategory > 0) url += $"categoryId={selectedCategory}&";
+            if (minPrice.HasValue) url += $"minPrice={minPrice.Value}&";
+            if (maxPrice.HasValue) url += $"maxPrice={maxPrice.Value}&";
+            if (onDiscount) url += $"onDiscount=true&";
+            products = await Http.GetFromJsonAsync<List<ProductDto>>(url.TrimEnd('&', '?'));
+        }
+    }
+
+    private string FormatLei(decimal price) => $"{price:N0} Lei";
+
+    private string GetGridKey() => $"{searchQuery}|{selectedCategory}|{minPrice}|{maxPrice}|{onDiscount}";
+
+    private string GetProductEmoji(string category)
+    {
+        return category switch
+        {
+            "Fruits" => "\uD83C\uDF53",
+            "Vegetables" => "\uD83E\uDD66",
+            "Dairy" => "\uD83E\uDDC0",
+            "Bakery" => "\uD83C\uDF5E",
+            "Beverages" => "\uD83C\uDF64",
+            _ => "\uD83D\uDED2"
+        };
+    }
+}
