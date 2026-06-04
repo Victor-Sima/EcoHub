@@ -1,0 +1,61 @@
+<UserControl x:Class="EcoHub.Admin.Views.CategoriesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="{StaticResource EhBgBrush}"
+             d:DesignHeight="600" d:DesignWidth="940">
+    <Grid Margin="28,26,28,28" Opacity="0">
+        <Grid.RenderTransform>
+            <TranslateTransform Y="0"/>
+        </Grid.RenderTransform>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard Storyboard="{StaticResource EhFadeInUp}"/>
+            </EventTrigger>
+        </Grid.Triggers>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,18">
+            <TextBlock Text="Categories" FontSize="28" FontWeight="Bold" Foreground="{StaticResource EhInk900Brush}"/>
+            <TextBlock Text="Organize your product taxonomy" Foreground="{StaticResource EhInk500Brush}" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Style="{StaticResource EhCard}" Margin="0,0,0,18">
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="NewCategoryName" Style="{StaticResource EhTextBox}" Width="220" Margin="0,0,10,0"/>
+                <TextBox x:Name="NewCategoryDesc" Style="{StaticResource EhTextBox}" Width="340" Margin="0,0,10,0"/>
+                <Button Content="+ Add Category" Click="AddCategory_Click" Style="{StaticResource EhPrimaryButton}"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Style="{StaticResource EhCard}" Padding="0">
+            <DataGrid x:Name="CategoriesGrid" Style="{StaticResource EhDataGrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="180"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
+                    <DataGridTemplateColumn Header="Actions" Width="170">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Button Content="Edit" Click="EditCategory_Click" Tag="{Binding}"
+                                            Background="{StaticResource EhGreen50Brush}" Foreground="{StaticResource EhGreen700Brush}"
+                                            BorderThickness="0" FontWeight="SemiBold" Padding="10,4" Margin="0,0,6,0" Cursor="Hand"/>
+                                    <Button Content="Delete" Click="DeleteCategory_Click" Tag="{Binding}"
+                                            Background="{StaticResource EhCoralBrush}" Foreground="White"
+                                            BorderThickness="0" FontWeight="SemiBold" Padding="10,4" Cursor="Hand"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>
