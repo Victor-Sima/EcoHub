@@ -1,0 +1,521 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- =========================================================
+         Palette (Eco Green + Neutrals)
+         ========================================================= -->
+    <Color x:Key="EhGreen900">#FF0D3D10</Color>
+    <Color x:Key="EhGreen700">#FF1B5E20</Color>
+    <Color x:Key="EhGreen500">#FF2E7D32</Color>
+    <Color x:Key="EhGreen400">#FF43A047</Color>
+    <Color x:Key="EhGreen300">#FF66BB6A</Color>
+    <Color x:Key="EhGreen100">#FFC8E6D0</Color>
+    <Color x:Key="EhGreen50">#FFE8F5EC</Color>
+
+    <Color x:Key="EhAccent">#FFFFB300</Color>
+    <Color x:Key="EhAccentDark">#FFFF8A00</Color>
+    <Color x:Key="EhCoral">#FFFF5252</Color>
+
+    <Color x:Key="EhInk900">#FF0F172A</Color>
+    <Color x:Key="EhInk700">#FF334155</Color>
+    <Color x:Key="EhInk500">#FF64748B</Color>
+    <Color x:Key="EhInk300">#FFCBD5E1</Color>
+    <Color x:Key="EhInk200">#FFE2E8F0</Color>
+    <Color x:Key="EhInk100">#FFF1F5F9</Color>
+    <Color x:Key="EhSurface">#FFFFFFFF</Color>
+    <Color x:Key="EhBg">#FFF6F9F7</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="EhGreen900Brush"  Color="{StaticResource EhGreen900}" />
+    <SolidColorBrush x:Key="EhGreen700Brush"  Color="{StaticResource EhGreen700}" />
+    <SolidColorBrush x:Key="EhGreen500Brush"  Color="{StaticResource EhGreen500}" />
+    <SolidColorBrush x:Key="EhGreen400Brush"  Color="{StaticResource EhGreen400}" />
+    <SolidColorBrush x:Key="EhGreen300Brush"  Color="{StaticResource EhGreen300}" />
+    <SolidColorBrush x:Key="EhGreen100Brush"  Color="{StaticResource EhGreen100}" />
+    <SolidColorBrush x:Key="EhGreen50Brush"   Color="{StaticResource EhGreen50}"  />
+    <SolidColorBrush x:Key="EhAccentBrush"    Color="{StaticResource EhAccent}"   />
+    <SolidColorBrush x:Key="EhCoralBrush"     Color="{StaticResource EhCoral}"    />
+    <SolidColorBrush x:Key="EhInk900Brush"    Color="{StaticResource EhInk900}"   />
+    <SolidColorBrush x:Key="EhInk700Brush"    Color="{StaticResource EhInk700}"   />
+    <SolidColorBrush x:Key="EhInk500Brush"    Color="{StaticResource EhInk500}"   />
+    <SolidColorBrush x:Key="EhInk300Brush"    Color="{StaticResource EhInk300}"   />
+    <SolidColorBrush x:Key="EhInk200Brush"    Color="{StaticResource EhInk200}"   />
+    <SolidColorBrush x:Key="EhInk100Brush"    Color="{StaticResource EhInk100}"   />
+    <SolidColorBrush x:Key="EhSurfaceBrush"   Color="{StaticResource EhSurface}"  />
+    <SolidColorBrush x:Key="EhBgBrush"        Color="{StaticResource EhBg}"       />
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="EhHeaderGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="{StaticResource EhGreen900}" Offset="0" />
+        <GradientStop Color="{StaticResource EhGreen700}" Offset="0.55" />
+        <GradientStop Color="{StaticResource EhGreen500}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EhSideMenuGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFFFFFFF" Offset="0" />
+        <GradientStop Color="#FFF6F9F7" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EhButtonGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource EhGreen500}" Offset="0" />
+        <GradientStop Color="{StaticResource EhGreen300}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EhButtonGradientHover" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="{StaticResource EhGreen700}" Offset="0" />
+        <GradientStop Color="{StaticResource EhGreen400}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EhLoginBackground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FF0D3D10" Offset="0" />
+        <GradientStop Color="#FF2E7D32" Offset="0.55" />
+        <GradientStop Color="#FF66BB6A" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EhCoralGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FFFF5252" Offset="0" />
+        <GradientStop Color="#FFFF8A65" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- =========================================================
+         Drop Shadows
+         ========================================================= -->
+    <DropShadowEffect x:Key="EhShadowSm"  BlurRadius="12" ShadowDepth="2" Opacity="0.10" Color="Black" />
+    <DropShadowEffect x:Key="EhShadowMd"  BlurRadius="24" ShadowDepth="4" Opacity="0.14" Color="Black" />
+    <DropShadowEffect x:Key="EhShadowLg"  BlurRadius="40" ShadowDepth="8" Opacity="0.18" Color="Black" />
+    <DropShadowEffect x:Key="EhShadowGreen" BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#FF2E7D32" />
+
+    <!-- =========================================================
+         Typography defaults
+         ========================================================= -->
+    <Style x:Key="EhH1" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+    </Style>
+
+    <Style x:Key="EhH2" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+    </Style>
+
+    <Style x:Key="EhLabel" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk700Brush}" />
+        <Setter Property="Margin" Value="0,0,0,6" />
+    </Style>
+
+    <Style x:Key="EhMuted" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource EhInk500Brush}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- =========================================================
+         Modern TextBox / PasswordBox
+         ========================================================= -->
+    <Style x:Key="EhTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource EhInk300Brush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Auto" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource EhGreen300Brush}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource EhGreen500Brush}" />
+                            <Setter TargetName="Bd" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="0" Opacity="0.35" Color="#FF66BB6A" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EhPasswordBox" TargetType="PasswordBox">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource EhInk300Brush}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Stretch"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Auto" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource EhGreen300Brush}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource EhGreen500Brush}" />
+                            <Setter TargetName="Bd" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="12" ShadowDepth="0" Opacity="0.35" Color="#FF66BB6A" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =========================================================
+         Buttons
+         ========================================================= -->
+    <Style x:Key="EhPrimaryButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="42" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="22,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="{StaticResource EhButtonGradient}"
+                            CornerRadius="21"
+                            Effect="{StaticResource EhShadowGreen}"
+                            RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="Scale" ScaleX="1" ScaleY="1" />
+                                <TranslateTransform x:Name="Tx" Y="0" />
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Tx" Storyboard.TargetProperty="Y"
+                                                     To="-2" Duration="0:0:0.18" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Tx" Storyboard.TargetProperty="Y"
+                                                     To="0" Duration="0:0:0.2" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX"
+                                                     To="0.96" Duration="0:0:0.1" AutoReverse="True" />
+                                    <DoubleAnimation Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY"
+                                                     To="0.96" Duration="0:0:0.1" AutoReverse="True" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhButtonGradientHover}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhInk300Brush}" />
+                            <Setter TargetName="Bd" Property="Effect" Value="{x:Null}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EhOutlineButton" TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource EhGreen700Brush}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="18,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="White"
+                            BorderBrush="{StaticResource EhGreen500Brush}"
+                            BorderThickness="1.5"
+                            CornerRadius="19">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhGreen50Brush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhGreen100Brush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EhDangerButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="18,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{StaticResource EhCoralGradient}" CornerRadius="19">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="20" ShadowDepth="4" Opacity="0.35" Color="#FFFF5252" />
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.92" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="EhTopBarButton" TargetType="Button">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd"
+                            Background="#22FFFFFF"
+                            BorderBrush="#55FFFFFF"
+                            BorderThickness="1"
+                            CornerRadius="17">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="6,0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#44FFFFFF" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =========================================================
+         Side Menu Navigation Button
+         ========================================================= -->
+    <Style x:Key="EhNavButton" TargetType="Button">
+        <Setter Property="Foreground" Value="{StaticResource EhInk700Brush}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="13.5" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="Margin" Value="8,3" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Indicator"
+                                Width="4"
+                                HorizontalAlignment="Left"
+                                Background="{StaticResource EhGreen500Brush}"
+                                CornerRadius="2"
+                                Opacity="0"
+                                Margin="0,8" />
+                        <Border x:Name="Bd"
+                                Background="Transparent"
+                                CornerRadius="10"
+                                Margin="6,0,0,0">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="14,0" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhGreen50Brush}" />
+                            <Setter TargetName="Indicator" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                        <Trigger Property="Tag" Value="Active">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource EhGreen50Brush}" />
+                            <Setter TargetName="Indicator" Property="Opacity" Value="1" />
+                            <Setter Property="Foreground" Value="{StaticResource EhGreen700Brush}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =========================================================
+         Card
+         ========================================================= -->
+    <Style x:Key="EhCard" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="BorderBrush" Value="{StaticResource EhInk100Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect" Value="{StaticResource EhShadowSm}" />
+    </Style>
+
+    <Style x:Key="EhStatCard" TargetType="Border" BasedOn="{StaticResource EhCard}">
+        <Setter Property="Padding" Value="22" />
+        <Setter Property="Margin" Value="0,0,15,15" />
+        <Setter Property="Width" Value="200" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{StaticResource EhShadowMd}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- =========================================================
+         DataGrid - modern flat
+         ========================================================= -->
+    <Style x:Key="EhDataGrid" TargetType="DataGrid">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="RowBackground" Value="White" />
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource EhInk100Brush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource EhInk200Brush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource EhInk200Brush}" />
+        <Setter Property="RowHeight" Value="38" />
+        <Setter Property="ColumnHeaderHeight" Value="40" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{StaticResource EhHeaderGradient}" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Padding" Value="12,6" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Padding" Value="12,4" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource EhGreen100Brush}" />
+                            <Setter Property="Foreground" Value="{StaticResource EhGreen900Brush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =========================================================
+         ComboBox / CheckBox basics
+         ========================================================= -->
+    <Style x:Key="EhComboBox" TargetType="ComboBox">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="{StaticResource EhInk300Brush}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Window/TextBlock defaults -->
+    <Style TargetType="Window">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Background" Value="{StaticResource EhBgBrush}" />
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="Foreground" Value="{StaticResource EhInk900Brush}" />
+    </Style>
+
+</ResourceDictionary>
