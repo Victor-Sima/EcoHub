@@ -1,0 +1,91 @@
+﻿@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject SignalRService SignalRService
+@implements IDisposable
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-eco">
+    <div class="container">
+        <a class="navbar-brand" href="/">&#127807; EcoHub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto navbar-items">
+                <li class="nav-item navbar-item">
+                    <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Home</NavLink>
+                </li>
+                <li class="nav-item navbar-item">
+                    <NavLink class="nav-link" href="/products">Products</NavLink>
+                </li>
+                <li class="nav-item navbar-item">
+                    <NavLink class="nav-link" href="/discounts">Discounts<span class="nav-badge">%</span></NavLink>
+                </li>
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item navbar-item">
+                            <NavLink class="nav-link" href="/cart">Cart</NavLink>
+                        </li>
+                        <li class="nav-item navbar-item">
+                            <NavLink class="nav-link" href="/orders">Orders</NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+            <ul class="navbar-nav navbar-items">
+                <AuthorizeView>
+                    <Authorized>
+                        <li class="nav-item navbar-item">
+                            <NavLink class="nav-link" href="/account">&#128100; @userName</NavLink>
+                        </li>
+                        <li class="nav-item navbar-item">
+                            <button class="nav-link btn-nav-logout" @onclick="Logout">Logout</button>
+                        </li>
+                    </Authorized>
+                    <NotAuthorized>
+                        <li class="nav-item navbar-item">
+                            <NavLink class="nav-link" href="/login">Login</NavLink>
+                        </li>
+                        <li class="nav-item navbar-item">
+                            <NavLink class="nav-link" href="/register">Register</NavLink>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private string? userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserName();
+        AuthService.AuthStateChanged += OnAuthStateChanged;
+    }
+
+    private async Task LoadUserName()
+    {
+        var user = await AuthService.GetCurrentUserAsync();
+        userName = user != null ? $"{user.FirstName} {user.LastName}" : null;
+    }
+
+    private async void OnAuthStateChanged()
+    {
+        await LoadUserName();
+        StateHasChanged();
+    }
+
+    private async Task Logout()
+    {
+        userName = null;
+        await AuthService.LogoutAsync();
+        await SignalRService.StopAsync();
+        Navigation.NavigateTo("/");
+    }
+
+    public void Dispose()
+    {
+        AuthService.AuthStateChanged -= OnAuthStateChanged;
+    }
+}

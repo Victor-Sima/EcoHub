@@ -1,0 +1,9 @@
+/* Horizontal navbar — all alignment handled in modern.css .navbar-eco */
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 640px) {
+    .navbar-collapse { padding-bottom: 0.5rem; }
+}
